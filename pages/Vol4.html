@@ -1,0 +1,50 @@
+<!-- Vol4 -->
+
+<span>
+         <h2 class="major">任务</h2>
+         <h3>创建一个简单的插件任务</h3>
+         我们将使用最终得到的插件，并向它添加一个简单的任务，告诉用户10秒已经过去了。<br>
+         首先，去到 "Inactive-to-ReactiveExample.php" 文件夹并创建一个名为"MyTask.php"的新文件夹。<br>
+         把这些的东西放进去。<br>
+         <pre><code>
+             &lt?php // 当您写一个PHP文件，总是使用这个
+
+             namespace Inactive-to-Reactive\tasks; // 使用与您的第一个文件相同的名称空间，但是添加一个\tasks，它表示此文件位于子文件夹“tasks”中
+
+             use pocketmine\scheduler\PluginTask; // 这是您的任务将扩展为一个插件任务的class（类）
+             use Inactive-to-Reactive\Inactive-to-ReactiveExample; // 这将允许我们使用我们的主类（main class）。它是插件任务的必需参数。
+             
+             class MyTask extends PluginTask { // 请记住，您的任务必须具有与文件相同的名称!
+
+                // 首先，我们需要一个__construct函数，当您创建一个类（class）来设置默认变量时使用它。
+                public function __construct(Inactive-to-ReactiveExample $main, string $playername) { // 你在这里定义的参数取决于你想为你的基础做什么。
+                    parent::__construct($main); // 用于满足对任务的pocketmine要求。您可以随时检索您的main class，并通过使用$ this-> getOwner()来在您的class中使用它的方法
+                    $this->playername = $playername; // 所以我们可以把玩家重新设计。
+                }
+
+
+                // 然后，我们将创建一个 onRun 函数当任务执行已经过去时，将会被调用
+                public function onRun($tick) { // $tick 是当前服务器在执行任务时发出的记号
+                    $player = $this->getOwner()->getServer()->getPlayer($this->playername()); // This retreive the main class with $this->getOwner() then asks the server for the player with the name $this->playername
+                    if($player instanceof Player) { // 基本检查我们检索的玩家是否在线。
+                        $player->sendMessage("10 seconds has past!"); // 给他发一条信息！
+                    }
+                }
+             }.
+             </code></pre>
+             这就是你创造的任务!现在我们来看看如何执行它。<br>
+             首先，我们让它执行1次，但延迟了<br>
+             在您的主类中，您在那里做了“测试”命令。
+             <pre><code>
+                 $task = new tasks\MyTask($this, $sender->getName()); // Create the new class Task by calling
+                 $this->getServer()->getScheduler()->scheduleDelayedTask($task, 10*20); // Counted in ticks (1 second = 20 ticks)
+                 </code></pre>
+                 So the player will receive a message 10 seconds after he executed the command /test !<br>
+                 But now, what if we want the player to receive a message <b>each</b> 10 seconds?<br>
+                 Well, there's a special function for that ! We don't even need to change the task !<br>
+             <pre><code>
+                 $task = new tasks\MyTask($this, $sender->getName()); // Create the new class Task by calling
+                 $this->getServer()->getScheduler()->scheduleRepeatingTask($task, 10*20); // Counted in ticks (1 second = 20 ticks)
+                 </code></pre>
+<button onclick="location.hash='#quiz'">进行成果检验<img style="position: absolute" src="images/next.png"></img></button>
+</span>

@@ -1,0 +1,129 @@
+<!-- Vol2 -->
+
+<span>
+    
+    
+    <h2 class="major">
+    第二卷：指令</h2>
+<h3>设置一个指令</h3>
+在插件中使用命令使你的插件更加迷人!命令可以自动并且轻松地帮您做事!
+<blockquote>如果你要使用命令，请插入这些“use”语句:</blockquote>
+<pre><code>// 指令
+use pocketmine\command\Command;
+
+// 做指令的人
+use pocketmine\command\CommandSender;</code></pre>
+<blockquote>设置命令我们使用公共函数!结构：</blockquote>
+<pre><code>public function onCommand(CommandSender $sender,Command $cmd,$label,array $args){
+}</code></pre>一个函数可能很长，但这就是你要如何发出命令的方式!
+<blockquote>在公共函数onCommand()之后：</blockquote>
+
+<pre><code>if($cmd->getName() == "测试"){ //在这种情况下，我们将制作命令 "/测试"
+     $sender->sendMessage("这是一个测试");</code></pre>说明:在上面的场景中，如果命令“/ test”发出，服务器将向执行此命令的玩家发送一条消息!
+     祝贺你的第一个“if”语句!这些在PHP中非常重要!<br>
+<BR>
+<blockquote>预习：让我们看看我们现在有什么…</blockquote>
+<pre><code>&lt;?php
+
+namespace Inactive-to-Reactive;
+
+use pocketmine\plugin\PluginBase;
+use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\utils\TextFormat;
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
+
+class Inactive-to-ReactiveExample extends PluginBase implements Listener{
+     public function onEnable(){
+          $this->getServer()->getPluginManager()->registerEvents($this,$this);
+          $this->getLogger()->info("插件已激活");
+     }
+     public function onJoin(PlayerJoinEvent $event){
+          $player = $event->getPlayer();
+          $name = $player->getName();
+          $this->getServer()->broadcastMessage(TextFormat::GREEN."$name 加入了MCPE服务器！欢迎！");
+     }
+     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args){
+          if($cmd->getName() == "测试"){
+               $sender->sendMessage("这是一个测试！");
+          }
+          return true;
+     }
+}</code></pre>"return true"语句是在if括号"{"和"}"后面。所以当某人执行 /测试 时他会得到一条"This is a test!"的消息 
+<br> 这是不是太无聊了?想让它变得更棒吗?
+
+<blockquote>这就是如何使命令“/测试”更好的方法!现在，当玩家发出命令时，他/她将得到4块牛排!</blockquote>
+<pre><code>if($cmd->getName() == "测试"){
+     $sender->getInventory()->addItem(Item::get(364,0,2)); //364 = Item ID Value (in this case, 364 is steak)
+     $sender->sendMessage(TextFormat::BOLD."你收到了4块牛排！");
+}
+return true;</code></pre>这个命令可以让你得到四份牛排!这向您展示了命令可以多么强大，但是还有很多！但是，有些事情是不正确的！如果控制台是命令发送方，会发生什么？我们如何防止控制台使用呢？
+<br><br>
+<blockquote>为了避免以上情况，我们将使用if语句，包括" instanceof " </blockquote>
+
+<pre><code>if($cmd->getName() == "测试"){
+     if(!$sender instanceof Player){ // 这是检查命令发送者不是玩家
+          $sender->sendMessage("这个命令只适用于玩家！请在游戏中执行这个命令！"); // 对控制台中的指令发送者
+     }else{ //如果指令发送者不是控制台的
+          $sender->getInventory()->addItem(Item::get(364,0,4));
+          $sender->sendMessage("你得到了四块牛排！");
+     }
+}
+return true;</code></pre> 
+    <br>这个简单而且好用的代码可以防止你的服务器在你想给控制台四个牛排时崩溃（现在不能这样做了）。
+    <h3>想知道更多吗？参数。</h3>
+    太棒了!现在我们已经知道如何执行“基本”命令了，让我们可以允许用户选择他想要多少牛排来让命令变得更好！<br>
+    我们来看看一个变量，我们不知道它是什么…我讨论的是 <code>$args</code> 变量<br>
+    它可以存储在数组中使用的每一个参数。<br>
+    但是它是如何存储的呢？像这样：
+    <pre><code>/command &lt;$args[0]&gt; &lt;$args[1]&gt; &lt;$args[2]&gt; &lt;$args[3]&gt; ...</code></pre>
+    警告:数组总是从0开始!<br>
+    让我们将其应用于我们的代码：<br>
+    
+    <pre><code>if($cmd->getName() == "测试"){
+     if(!$sender instanceof Player){
+          $sender->sendMessage("这个命令只适用于玩家！请在游戏中执行这个命令！");
+     }else{
+          $sender->getInventory()->addItem(Item::get(364,0,$args[0])); // 我们将count选择为第一个参数
+          $sender->sendMessage("你刚刚获得了". count($args[0]) . " 块牛排！");
+     }
+}
+return true;</code></pre> 
+    如您所见，现在我们可以使用/测试，它将提供我们想要的牛排的数量！<br>
+    可是等一下，如果用户忘记输入参了数呢？这个命令就行不通！<br>
+   为了解决这个问题，我们需要添加一个解析器来检查是否输入了“0”参数，如果是这样的话，“creating”它。<br>
+    我们将使用函数 <a href="http://php.net/manual/en/function.isset.php"><code>isset</code></a> 它允许我们检查变量是否被定义。<br>
+    让我们在代码中使用它吧!<br>
+    
+    <pre><code>if($cmd->getName() == "测试"){
+     if(!$sender instanceof Player){
+          $sender->sendMessage("这个命令只适用于玩家！请在游戏中执行这个命令！");
+     }else{
+          if(!isset($args[0])) { // 检查参数0是否定义。
+                $args[0] = 4; // 定义$ args[0]于值4
+          }
+          $sender->getInventory()->addItem(Item::get(364,0,$args[0]));
+          $sender->sendMessage("你刚刚获得了" .count($args[0]). " 块牛排！");
+     }
+}
+return true;</code></pre> 
+    看起来似乎更棒了！<br>
+    但是如果用户输入的不是数字呢?即使它是一个数字，如果它是负的呢?<br>
+    我们还需要在我们的代码中解决这个!我们将使用一个新函数 <a href="http://php.net/manual/en/function.is-int.php"><code>is_int</code></a> 这将允许我们检查变量是否是整数。<br>
+    
+    <pre><code>if($cmd->getName() == "测试"){
+     if(!$sender instanceof Player){
+          $sender->sendMessage("这个命令只适用于玩家！请在游戏中执行这个命令！");
+     }else{
+          if(!isset($args[0]) or (is_int($args[0]) and $args[0] > 0)) { // 检查参数0是否为整数，且大于0
+                $args[0] = 4; // 定义$ args[0]于值4
+          }
+          $sender->getInventory()->addItem(Item::get(364,0,$args[0]));
+          $sender->sendMessage("你刚刚获得了" .count($args[0]). " 块牛排！");
+     }
+}
+return true;</code></pre> 
+    就是这些！你用这些参数制作了你的第一个指令！
+<br><button onclick="location.hash='Vol3'">下一节课程<img style="position: absolute" src="images/next.png"></img></button>
+</span>

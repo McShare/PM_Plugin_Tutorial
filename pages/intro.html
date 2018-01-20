@@ -1,0 +1,42 @@
+<!-- intro -->
+
+
+
+<span>
+<h2 class="major">
+    介绍</h2>
+<p>欢迎来到全新设计的"Learn How To Code"网站！ 我们的目标是教会您如何编写PocketMine-MP插件以及其他spoons，通过提交你自己的插件/扩展，你可以为社区做出贡献！</p>
+<p>归功于 @ theknightgamer的宣传和分享网站，
+	 @ remote_vase创建网站，并添加了一些教程，
+	并给@ taki21创建教程，并发布在ImagicalMine社区论坛上。
+</p>
+<h3>plugin.yml范例</h3>
+<pre><code>name: 插件名称
+author: 作者名称
+api: [3.0.0, 3.0.0-alpha4]
+version: 1.0
+main: Inactive-to-Reactive/Inactive-to-ReactiveExample
+# 在上面的“main”语句中，找到主类路径，但排除“src”
+
+# 指令：如果你的插件有指令：填写这个：
+command:
+	cmdname:
+		description: cmdnameDescription
+		usage: /cmdname
+	cmd2name:
+		description: cmd2nameDescription
+		usage: /cmd2name
+
+# 权限
+permissions:
+	cmdname.command:
+		default: true
+	cmd2name.command:
+		default: true</code></pre>
+<blockquote>不要忘记替换你自己的插件信息（名字，作者，主路径，指令，和权限）。</blockquote>
+<h3>范例文件结构</h3>
+<pre><span></span>PluginName <br>&#9;├── plugin.yml <br>&#9;&#9;└── src<br>&#9;&#9;&#9;└── Inactive-to-Reactive<br>&#9;&#9;&#9;&#9;└── Inactive-to-ReactiveExample.php
+</pre>
+<blockquote>不要忘记将"Inactive-to-Reactive"改成你的名字 (因为你是作者，而不是我们)!</blockquote>
+<button onclick="location.hash='Vol1'">下一节课程<img style="position: absolute" src="images/next.png"></img></button>
+</span>

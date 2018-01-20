@@ -1,0 +1,132 @@
+<!-- Vol1 -->
+
+
+
+
+<span>
+    <h2 class="major">
+    第一卷：基础知识和概念</h2>
+<p>在第一个卷中，您将学习所有需要的代码项，以便插件工作。你也会发现很多最基本的函数是可选择的，但是他们添加了一个很好的完成(或者开始，在这个例子中)触摸到插件!</p>
+<h3>第一步</h3>
+<pre><code>&lt;?php//所有PHP文件都必须以这个开始。
+
+//这应该是src目录的子文件夹。基于“intro”部分的文件夹结构示例，这里是Inactive-to-Reactive
+namespace Inactive-to-Reactive; 
+
+#接下来，我们添加“use”语句。注意，随着课程的进展，更多的使用语句将被添加
+use pocketmine\plugin\PluginBase;
+
+#然后，输入class语句:
+
+//这有一个特定的格式：“ class (文件名) extends PluginBase{ ” “PluginBase”部分根据文件的不同而有所不同，但这是非常高级的。你会在别的时候发现更多。
+class Inactive-to-ReactiveExample extends PluginBase{ 
+								</code></pre>
+<h3>插件启用、禁用和加载函数!</h3>
+class语句后按ENTER键并输入
+<pre><code>public function onLoad(){</code></pre>
+<blockquote>如果你想要一个加载信息!</blockquote>
+在function行后按下回车并输入：
+<pre><code>$this->getLogger()->info("插件加载中");</code></pre>您刚刚创建了一个公共函数，并创建了一个load消息!
+
+<blockquote>这是迄今为止的布局，我希望常识能让你理解onEnable和onDisable，即使我们没有一步一步地为它们写出步骤:</blockquote>
+<pre><code>&lt;?php
+
+namespace Inactive-to-Reactive;
+
+use pocketmine\plugin\PluginBase;
+
+class Inactive-to-ReactiveExample extends PluginBase{
+
+          public function onLoad(){
+                    $this->getLogger()->info("插件加载中……");
+          }
+          public function onEnable(){
+                    $this->getLogger()->info("插件已激活~");
+          }
+          public function onDisable(){
+                    $this->getLogger()->info("插件已禁用");
+          }
+}</code></pre> 当你的插件在Logger上启用，或者我们都知道控制台的时候，公共函数就是启用的。插件将向控制台发送启用消息！
+<br><br> 当您的插件在Logger上禁用，或者我们都知道控制台的时候，公共函数是禁用的。插件将向控制台发送禁用消息！
+<br><br> 你已经学了三个基本函数!恭喜你!<br><br><br>
+<h3>玩家事件！</h3>
+你已经知道最基本的了!那么现在，现在我们要学习一些插件的制作方法。玩家事件……本节课我们将集中讨论PlayerJoinEvent和PlayerQuitEvent——两个主要的事件!
+
+<blockquote>要在你的插件中应用这个，请导入这些语句!还记得“use”语句吗?导入这些：</blockquote>
+<pre><code>// 当玩家加入时的事件
+use pocketmine\event\player\PlayerJoinEvent;
+
+// 玩家退出时的事件
+use pocketmine\event\player\PlayerQuitEvent;
+
+// 玩家"class"
+use pocketmine\Player;
+
+// 服务器 "class"
+use pocketmine\Server;
+
+// 事件监听器
+use pocketmine\event\Listener;</code></pre>
+
+<blockquote>由于我们现在使用事件，所以我们稍微更改了class语句:</blockquote>
+<pre><code>class Inactive-to-ReactiveExample extends PluginBase implements Listener{</code></pre>
+
+<blockquote>对于onEnable()函数，我们在公用函数onEnable()之后加上这一行（因为我们在使用事件！）</blockquote>
+<pre><code>public function onEnable(){
+     $this->getServer()->getPluginManager()->registerEvents($this,$this); // THIS LINE
+     $this->getLogger()->info("Plugin Enabled");</code></pre>
+
+<blockquote>您是否想在服务器上广播一个消息，说某人以一种奇特的方式加入？然后我们将使用另一个函数！！！像这样：</blockquote>
+<pre><code>public function onJoin(PlayerJoinEvent $event){
+   $player = $event->getPlayer();
+   $name = $player->getName();
+   $this->getServer()->broadcastMessage("$name Joined The Inactive-to-Reactive test Server! Awesome!");
+   </code></pre> 您知道:getPlayer()和getName()是公共函数吗？这就是新功能的制作方式！“onJoin”是一个新的公共功能！知道JavaScript的人可能知道这一点！
+
+<blockquote>恭喜你收到了一个连接信息，但是你想要它有更多颜色吗？将此“use”语句导入您的代码：</blockquote>
+<pre><code>// 文本格式格式化文本并改变颜色
+
+use pocketmine\utils\TextFormat;</code></pre>
+
+<blockquote>Now for your message:</blockquote>
+<pre><code>$this->getServer()->broadcastMessage(TextFormat::GREEN."$name 加入了某某MCPE服务器！欢迎！");</code></pre> 现在你的信息颜色是绿色的!注意:不要在PlayerDeathEvent中使用getPlayer()，确保使用getEntity()，否则每次有人死亡时，它都会崩溃。在这里可以找到一列玩家事件: <a href="https://github.com/pmmp/PocketMine-MP/tree/master/src/pocketmine/event/player">ClickMeBro</a>
+<br>
+<Br><br>
+<h3> 所以，我们终于达到了第一卷的结尾！让我们看看我们学到了什么!(有点小多)。</h3>
+<pre><code>&lt;?php
+
+namespace Inactive-to-Reactive;
+
+use pocketmine\plugin\PluginBase;
+
+use pocketmine\event\player\PlayerJoinEvent;
+
+use pocketmine\event\player\PlayerQuitEvent;
+
+use pocketmine\Player;
+
+use pocketmine\Server;
+
+use pocketmine\event\Listener;
+
+use pocketmine\utils\TextFormat as C;
+
+class Inactive-to-ReactiveExample extends PluginBase implements Listener{
+
+          public function onLoad(){
+                    $this->getLogger()->info("Plugin Loading");
+          }
+          public function onEnable(){
+                    $this->getServer()->getPluginManager()->registerEvents($this,$this);
+		    $this->getLogger()->info("Enabled Plugin");
+          }
+          public function onDisable(){
+                    $this->getLogger()->info("Plugin Disabled");
+          }
+	  public function onJoin(PlayerJoinEvent $event){
+  		 $player = $event->getPlayer();
+   		$name = $player->getName();
+   		$this->getServer()->broadcastMessage(C::GREEN."$name Joined The Inactive-to-Reactive test Server! Awesome!");
+	}
+}</code></pre>
+<button onclick="location.hash='Vol2'">下一节课程 <img style="position: absolute" src="images/next.png"></img></button></span>

@@ -1,0 +1,53 @@
+<!-- Vol3 -->
+
+<span>
+    <h2>配置文件！</h2>
+    <hr>
+    配置文件可以让你的插件成为世界上可定制性最好的插件之一!<br>
+    但是要使用配置文件，我们需要许多东西：<br>
+    - (1)一个默认的config文件，保存在resource文件夹中 <br>
+    - (2)保存配置，以便用户可以编辑它 <br>
+    - (3)从配置中获取数据 <br>
+    - (4)将数据设置到config <br><br><br><br>
+    
+
+    1)创建一个默认的配置文件：<br>
+    转到根插件文件夹，创建一个名为“resources”的文件夹。<br>
+    在它的内部，创建一个文件“config”。并将要显示给用户的默认配置设置放进去。<br>
+    Yaml就像数组一样运作:<br>
+    <pre><code>
+key: value
+        </code></pre>
+<br><br><br>
+        2)当插件在你成功地完成了你的配置后，你可以进入你的主文件，并添加到你的onEnable函数中:
+    <pre><code>
+$this->saveDefaultConfig(); // 保存config.yml如果没有创建。
+$this->reloadConfig(); // 有时通过获取configs值修复bug
+        </code></pre>
+        <br><br><br>
+    3) 从config中获取数据<br>
+    如果你想从你的配置中获取数据，添加这一行
+    <pre><code>
+$keyFromConfig = $this->getConfig()->get("key"); // 这将返回配置中的元素“key”
+    </code></pre>
+    它也是一种很好的方法来重新加载您的配置，以确保得到最后一个用户的选择。
+    <pre><code>
+$this->reloadConfig();
+    </code></pre>
+    <br><br>
+    4) 将数据设置到config。<br>
+    将数据设置到config可以帮助您保存游戏数据，或者纠正用户输入错误的值。<br>
+    要将数据设置到config，当需要将数据设置到config时，将这一行添加到代码中。<br>
+    <pre><code>
+$this->getConfig()->set("key", "example"); // 这会将config中的"key"元素设置为example.
+    </code></pre>
+    但是请记住，您需要保存配置以应用文件中的更改。
+    <pre><code>
+$this->getConfig()->save(); // 保存配置
+    </code></pre>
+
+
+    <!-- TODO: CustomConfig -->
+
+<button onclick="location.hash='Vol4'">下一节课程<img style="position: absolute" src="images/next.png"></img></button>
+</span>
