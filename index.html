@@ -8,14 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="assets/css/main.css" />
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <link rel="icon" href="/images/logo.png">
 </head>
 
 <body>
 
-    <!-- 包装 -->
+    <!-- Wapper -->
     <div id="wrapper">
 
-        <!-- 页眉 -->
+        <!-- Header -->
         <header id="header">
             <div class="logo">
                 <a href="#hidden" style="text-decoration:none;"><img src="./images/logo.png"></a>
@@ -24,10 +25,11 @@
                 <div class="inner">
                     <h1>PocketMine插件课程</h1>
                     <!-- 请勿随意更改此处作者、汉化者信息，谢谢！ -->
-                    <p><b>学习如何编写PM插件。 <br> <br> 网站由 @remote_vase 和 @Ad5001 制作。由 @YYT 进行汉化。 
+                    <p>学习如何编写PM插件。 <br> <br> 网站由 @remote_vase 和 @Ad5001 制作。由 @YYT 进行汉化。 
                     <br> 大部分的原创课程都是由 @Taki21 在Inactive-to-Reactive的帮助下编写。
                     <br> 如"Tasks"的教程由Inactive-To-Reactive的成员添加（@Ad5001 和 @remote_vase）。
-                    <br> <br> 从<a href=" http://git.oschina.net/McShare/PM_Plugin_Tutorial/issues"> 这里</a>为我们提供建议。</b></p>
+                    <br> 【请注意，本教程内容陈旧，很可能已经失效，仅作展示，请勿用于实操！】
+                    </p>
                 </div>
             </div>
             <nav>
@@ -37,7 +39,7 @@
             </nav>
         </header>
 
-        <!-- 主体 -->
+        <!-- Body -->
         <div id="main">
             <center class="article">
                 <p>当前课程完成度：<span id="progress"></span></p>
@@ -74,16 +76,16 @@
                 <p>从服务器加载页面中…</p>
             </article>
 
-            <!-- 隐藏 -->
+            <!-- 彩蛋 -->
             <article id="hidden">
                 <!-- Did this one or people would have a lag and an error in the console :p -->
             </article>
 
         </div>
 
-        <!-- 页脚 -->
+        <!-- Footer -->
         <footer id="footer">
-            <p class="copyright">&copy;2015-2017 <a href="https://www.mcshare.net/"><b>MCSHARE</b></a> ALL RIGHTS RESERVED</p>
+            <p class="copyright">&copy;2015-<a id="y" class="copyright"></a> <a href="https://www.mcshare.net/"><b>MCSHARE</b></a> ALL RIGHTS RESERVED</p>
         </footer>
 
     </div>
@@ -91,13 +93,18 @@
     <!-- BG -->
     <div id="bg"></div>
 
-    <!-- 脚本 -->
+    <!-- Script -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/skel.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script src="assets/js/util.js"></script>
     <script src="assets/js/pages.js"></script>
     <script src="assets/js/courseCalc.js"></script>
+    <script>
+        var date = new Date()<!--获得日期数据-->
+        var y = date.getFullYear();<!--年-->
+        document.getElementById("y").innerHTML =y;
+    </script>
 
 </body>
 
