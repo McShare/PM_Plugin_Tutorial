@@ -1256,7 +1256,7 @@ body.is-loading #bg:before {
 @media screen and (max-width: 1680px) {
     #wrapper {
         padding: 3rem 2rem;
-        background-image: url("https://cdn.securelist.com/files/2011/06/498.png")
+        background-image: url("/images/bg.jpg")
     }
 }
 
